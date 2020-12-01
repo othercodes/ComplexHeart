@@ -1,0 +1,40 @@
+{
+  "name": "othercode/complex-heart",
+  "description": "Domain driven design tools.",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Unay Santisteban",
+      "email": "usantisteban@othercode.es"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "php": "^7.4",
+    "ext-json": "*",
+    "ramsey/uuid": "^4.1",
+    "nesbot/carbon": "^2.40",
+    "konekt/enum": "^3.0"
+  },
+  "require-dev": {
+    "ext-xdebug": "*",
+    "mockery/mockery": "^1.4",
+    "phpunit/phpunit": "^9.3",
+    "fzaninotto/faker": "^1.9"
+  },
+  "autoload": {
+    "psr-4": {
+      "OtherCode\\ComplexHeart\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "OtherCode\\ComplexHeart\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit --configuration phpunit.xml --testdox",
+    "test-cov": "phpunit --configuration phpunit.xml --testdox --coverage-html=coverage"
+  }
+}
