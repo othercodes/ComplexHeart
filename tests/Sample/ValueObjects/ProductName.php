@@ -10,8 +10,6 @@ use OtherCode\ComplexHeart\Domain\ValueObjects\StringValue;
 /**
  * Class ProductName
  *
- * @method string value()
- *
  * @author Unay Santisteban <usantisteban@othercode.es>
  * @package OtherCode\ComplexHeart\Tests\Domain\ValueObjects
  */

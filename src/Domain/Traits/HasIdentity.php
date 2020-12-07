@@ -44,4 +44,15 @@ trait HasIdentity
     {
         return isset($this->{$this->_identity['field']});
     }
+
+    /**
+     * Return the computed hash to evaluate if the given object
+     * is the same as the other.
+     *
+     * @return string
+     */
+    protected function hash(): string
+    {
+        return $this->id()->value();
+    }
 }

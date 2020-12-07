@@ -18,7 +18,6 @@ trait HasInvariants
     /**
      * Invariant configuration.
      *
-     * - prefix: defines the invariant string prefix: "invariant" by default.
      * - exception: Defines the exception that will be thrown on invariant violation.
      * - messages.*: messages used by this feature, can be customized by overriding the
      * property in the child class.
@@ -26,7 +25,6 @@ trait HasInvariants
      * @var array<string, string>
      */
     private array $_invariant = [
-        'prefix'        => "invariant",
         'exception'     => InvariantViolation::class,
         'messages.fail' => "Unable to create {class} due: \n{violations}\n",
     ];
@@ -36,14 +34,18 @@ trait HasInvariants
      *
      * @return string[]
      */
-    final private function invariants(): array
+    final public static function invariants(): array
     {
-        return array_filter(
-            get_class_methods($this),
-            function (string $name) {
-                return strpos($name, trim($this->_invariant['prefix'])) === 0;
+        $invariants = [];
+        foreach (get_class_methods(static::class) as $invariant) {
+            if (strpos($invariant, 'invariant') === 0) {
+                $invariants[$invariant] = strtolower(
+                    preg_replace('/[A-Z]([A-Z](?![a-z]))*/', ' $0', $invariant)
+                );
             }
-        );
+        }
+
+        return $invariants;
     }
 
     /**
@@ -71,14 +73,10 @@ trait HasInvariants
     {
         $violations = [];
 
-        $parse = fn(string $invariant) => strtolower(
-            preg_replace('/[A-Z]([A-Z](?![a-z]))*/', ' $0', $invariant)
-        );
-
-        foreach ($this->invariants() as $invariant) {
+        foreach (static::invariants() as $invariant => $rule) {
             try {
                 if (!call_user_func_array([$this, $invariant], [])) {
-                    $violations[$invariant] = $parse($invariant);
+                    $violations[$invariant] = $rule;
                 }
             } catch (Exception $e) {
                 $violations[$invariant] = $e->getMessage();

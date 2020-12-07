@@ -4,11 +4,18 @@ declare(strict_types=1);
 
 namespace OtherCode\ComplexHeart\Tests\Sample;
 
-use OtherCode\ComplexHeart\Domain\IsEntity;
+use OtherCode\ComplexHeart\Domain\Contracts\Entity;
+use OtherCode\ComplexHeart\Domain\Traits\IsEntity;
 use OtherCode\ComplexHeart\Domain\ValueObjects\UUIDValue as ProductId;
 use OtherCode\ComplexHeart\Tests\Sample\ValueObjects\ProductName;
 
-final class OrderLine
+/**
+ * Class OrderLine
+ *
+ * @author Unay Santisteban <usantisteban@othercode.es>
+ * @package OtherCode\ComplexHeart\Tests\Sample
+ */
+final class OrderLine implements Entity
 {
     use IsEntity;
 

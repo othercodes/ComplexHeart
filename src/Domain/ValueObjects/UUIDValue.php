@@ -6,7 +6,8 @@ namespace OtherCode\ComplexHeart\Domain\ValueObjects;
 
 use Exception;
 use OtherCode\ComplexHeart\Domain\Contracts\Identifier;
-use OtherCode\ComplexHeart\Domain\IsValueObject;
+use OtherCode\ComplexHeart\Domain\Contracts\ValueObject;
+use OtherCode\ComplexHeart\Domain\Traits\IsValueObject;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -15,7 +16,7 @@ use Ramsey\Uuid\Uuid;
  * @author Unay Santisteban <usantisteban@othercode.es>
  * @package OtherCode\ComplexHeart\Domain\ValueObjects
  */
-class UUIDValue implements Identifier
+class UUIDValue implements ValueObject, Identifier
 {
     use IsValueObject;
 
@@ -41,7 +42,7 @@ class UUIDValue implements Identifier
     }
 
     /**
-     * Invariant: Value must be compliance with any UUID version.
+     * Check if the value is a valid uuid.
      *
      * @return bool
      */

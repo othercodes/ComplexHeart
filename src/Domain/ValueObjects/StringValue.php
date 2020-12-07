@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace OtherCode\ComplexHeart\Domain\ValueObjects;
 
 use InvalidArgumentException;
-use OtherCode\ComplexHeart\Domain\IsValueObject;
+use OtherCode\ComplexHeart\Domain\Contracts\ValueObject;
+use OtherCode\ComplexHeart\Domain\Exceptions\InvariantViolation;
+use OtherCode\ComplexHeart\Domain\Traits\IsValueObject;
 
 /**
  * Class StringValueObject
@@ -15,7 +17,7 @@ use OtherCode\ComplexHeart\Domain\IsValueObject;
  * @author Unay Santisteban <usantisteban@othercode.es>
  * @package OtherCode\ComplexHeart\Domain\ValueObjects
  */
-abstract class StringValue
+abstract class StringValue implements ValueObject
 {
     use IsValueObject;
 
@@ -57,11 +59,17 @@ abstract class StringValue
         $this->initialize(['value' => $value]);
     }
 
+    /**
+     * Check if the value meets a minimum length.
+     *
+     * @return bool
+     * @throws InvariantViolation
+     */
     protected function invariantValueMinLengthMustBeValid(): bool
     {
         $length = strlen($this->value);
         if ($this->_minLength > 0 && $length < $this->_minLength) {
-            throw new InvalidArgumentException(
+            throw new InvariantViolation(
                 "Min length {$this->_minLength} is required, given {$length}"
             );
         }
@@ -69,11 +77,17 @@ abstract class StringValue
         return true;
     }
 
+    /**
+     * Check if the value meets a maximum length.
+     *
+     * @return bool
+     * @throws InvariantViolation
+     */
     protected function invariantValueMaxLengthMustBeValid(): bool
     {
         $length = strlen($this->value);
         if ($this->_maxLength > 0 && $length > $this->_maxLength) {
-            throw new InvalidArgumentException(
+            throw new InvariantViolation(
                 "Max length {$this->_maxLength} exceeded, given {$length}"
             );
         }
@@ -81,6 +95,11 @@ abstract class StringValue
         return true;
     }
 
+    /**
+     * Check if the value match the given regex expresion.
+     *
+     * @return bool
+     */
     protected function invariantValueMustMatchRegexPattern(): bool
     {
         if (!empty($this->_pattern)

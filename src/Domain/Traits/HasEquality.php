@@ -39,12 +39,16 @@ trait HasEquality
             return false;
         }
 
-        return hash(
-                $this->_equality['algorithm'],
-                (string)$this
-            ) === hash(
-                $this->_equality['algorithm'],
-                (string)$other
-            );
+        return $this->hash() === $other->hash();
+    }
+
+    /**
+     * Computes the equality hash using the configured algorithm.
+     *
+     * @return string
+     */
+    protected function hash(): string
+    {
+        return hash($this->_equality['algorithm'], $this->__toString());
     }
 }
