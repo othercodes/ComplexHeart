@@ -20,7 +20,7 @@ trait HasDomainEvents
      *
      * @var array<Event>
      */
-    private array $domainEvents = [];
+    private array $_domainEvents = [];
 
     /**
      * Pull out all the registered domain events.
@@ -29,8 +29,8 @@ trait HasDomainEvents
      */
     final public function pullDomainEvents(): array
     {
-        $domainEvents = $this->domainEvents;
-        $this->domainEvents = [];
+        $domainEvents = $this->_domainEvents;
+        $this->_domainEvents = [];
 
         return $domainEvents;
     }
@@ -40,8 +40,8 @@ trait HasDomainEvents
      *
      * @param  Event  $domainEvent
      */
-    final protected function register(Event $domainEvent): void
+    final protected function registerDomainEvent(Event $domainEvent): void
     {
-        $this->domainEvents[] = $domainEvent;
+        $this->_domainEvents[] = $domainEvent;
     }
 }

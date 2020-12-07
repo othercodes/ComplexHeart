@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace OtherCode\ComplexHeart\Domain\ValueObjects;
 
+use OtherCode\ComplexHeart\Domain\Contracts\ValueObject;
 use OtherCode\ComplexHeart\Domain\Exceptions\InvariantViolation;
-use OtherCode\ComplexHeart\Domain\IsValueObject;
+use OtherCode\ComplexHeart\Domain\Traits\IsValueObject;
 
 /**
  * Class IntegerValue
@@ -15,7 +16,7 @@ use OtherCode\ComplexHeart\Domain\IsValueObject;
  * @author Unay Santisteban <usantisteban@othercode.es>
  * @package OtherCode\ComplexHeart\Domain\ValueObjects
  */
-abstract class IntegerValue
+abstract class IntegerValue implements ValueObject
 {
     use IsValueObject;
 
@@ -50,6 +51,12 @@ abstract class IntegerValue
         $this->initialize(['value' => $value]);
     }
 
+    /**
+     * Check if the value meets a minimum length.
+     *
+     * @return bool
+     * @throws InvariantViolation
+     */
     protected function invariantValueMinLengthMustBeValid(): bool
     {
         if ($this->value < $this->_minValue) {
@@ -61,6 +68,12 @@ abstract class IntegerValue
         return true;
     }
 
+    /**
+     * Check if the value meets a maximum length.
+     *
+     * @return bool
+     * @throws InvariantViolation
+     */
     protected function invariantValueMaxLengthMustBeValid(): bool
     {
         if ($this->value > $this->_maxValue) {

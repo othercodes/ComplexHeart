@@ -1,6 +1,8 @@
 composer.phar
 /vendor/
 .idea/
-*nogit*
+/infrastructure
+*[N|n]o[G|g]it*
 *coverage*
 .phpunit.result.cache
+composer.lock

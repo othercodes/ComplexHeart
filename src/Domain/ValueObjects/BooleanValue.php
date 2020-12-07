@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace OtherCode\ComplexHeart\Domain\ValueObjects;
 
-use OtherCode\ComplexHeart\Domain\IsValueObject;
+use OtherCode\ComplexHeart\Domain\Contracts\ValueObject;
+use OtherCode\ComplexHeart\Domain\Traits\IsValueObject;
 
 /**
  * Class BooleanValue
@@ -14,7 +15,7 @@ use OtherCode\ComplexHeart\Domain\IsValueObject;
  * @author Unay Santisteban <usantisteban@othercode.es>
  * @package OtherCode\ComplexHeart\Domain\ValueObjects
  */
-abstract class BooleanValue
+abstract class BooleanValue implements ValueObject
 {
     use IsValueObject;
 
