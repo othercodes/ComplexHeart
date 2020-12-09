@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace OtherCode\ComplexHeart\Domain\ValueObjects;
 
+use DateTimeZone;
 use Carbon\CarbonImmutable;
 use Exception;
 use OtherCode\ComplexHeart\Domain\Contracts\ValueObject;
@@ -22,8 +23,8 @@ class DateTimeValue extends CarbonImmutable implements ValueObject
     /**
      * DateTimeValue constructor.
      *
-     * @param  null  $time
-     * @param  null  $tz
+     * @param  string|null  $time
+     * @param  DateTimeZone|string|null  $tz
      *
      * @throws Exception
      */
