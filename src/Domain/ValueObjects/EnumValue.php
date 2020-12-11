@@ -45,6 +45,21 @@ abstract class EnumValue implements ValueObject
     }
 
     /**
+     * Returns the cached constant data of the class.
+     *
+     * @return array
+     */
+    private static function cache(): array
+    {
+        if (!isset(static::$cache[static::class])) {
+            $reflection = new ReflectionClass(static::class);
+            static::$cache[static::class] = $reflection->getConstants();
+        }
+
+        return static::$cache[static::class];
+    }
+
+    /**
      * Check if the given value is in the list of allowed values.
      *
      * @return bool
@@ -63,12 +78,7 @@ abstract class EnumValue implements ValueObject
      */
     public static function isValid($value): bool
     {
-        if (!isset(static::$cache[static::class])) {
-            $reflection = new ReflectionClass(static::class);
-            static::$cache[static::class] = $reflection->getConstants();
-        }
-
-        return in_array($value, static::$cache[static::class], true);
+        return in_array($value, static::getValues(), true);
     }
 
     /**
@@ -78,7 +88,7 @@ abstract class EnumValue implements ValueObject
      */
     public static function getLabels(): array
     {
-        return array_keys(static::$cache[static::class]);
+        return array_keys(static::cache());
     }
 
     /**
@@ -88,7 +98,7 @@ abstract class EnumValue implements ValueObject
      */
     public static function getValues(): array
     {
-        return array_values(static::$cache[static::class]);
+        return array_values(static::cache());
     }
 
     /**
@@ -98,6 +108,6 @@ abstract class EnumValue implements ValueObject
      */
     public function __toString(): string
     {
-        return (string)$this->value();
+        return (string)$this->value;
     }
 }
