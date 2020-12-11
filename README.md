@@ -1,6 +1,9 @@
 # ComplexHeart
 
+[![Latest Stable Version](https://poser.pugx.org/othercode/complex-heart/v)](//packagist.org/packages/othercode/complex-heart)
+[![License](https://poser.pugx.org/othercode/complex-heart/license)](//packagist.org/packages/othercode/complex-heart)
 ![Tests](https://github.com/othercodes/ComplexHeart/workflows/Tests/badge.svg)
+[![codecov](https://codecov.io/gh/othercodes/ComplexHeart/branch/main/graph/badge.svg?token=wL3xLFaT22)](https://codecov.io/gh/othercodes/ComplexHeart)
 
 ## About
 
