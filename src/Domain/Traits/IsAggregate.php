@@ -17,5 +17,5 @@ namespace OtherCode\ComplexHeart\Domain\Traits;
  */
 trait IsAggregate
 {
-    use IsEntity, HasDomainEvents;
+    use IsEntity, HasDomainEvents, HasServiceBus;
 }
