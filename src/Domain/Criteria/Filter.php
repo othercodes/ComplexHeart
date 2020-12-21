@@ -26,6 +26,7 @@ final class Filter implements ValueObject
     public const LTE = '<=';
     public const IN = 'in';
     public const NOT_IN = 'notIn';
+    public const LIKE = 'like';
 
     /**
      * The filter field name.
