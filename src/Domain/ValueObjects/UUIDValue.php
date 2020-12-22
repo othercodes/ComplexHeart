@@ -34,7 +34,7 @@ class UUIDValue implements ValueObject, Identifier
      *
      * @param  string  $value
      */
-    public function __construct(string $value)
+    final public function __construct(string $value)
     {
         $this->initialize(
             ['value' => ($value === self::RANDOM) ? Uuid::uuid4()->toString() : $value]

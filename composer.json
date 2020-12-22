@@ -20,7 +20,8 @@
     "ext-xdebug": "*",
     "mockery/mockery": "^1.4",
     "phpunit/phpunit": "^9.3",
-    "fzaninotto/faker": "^1.9"
+    "fzaninotto/faker": "^1.9",
+    "phpstan/phpstan": "^0.12.64"
   },
   "autoload": {
     "psr-4": {
@@ -34,6 +35,7 @@
   },
   "scripts": {
     "test": "phpunit --configuration phpunit.xml --testdox",
-    "test-cov": "phpunit --configuration phpunit.xml --testdox --coverage-html=coverage"
+    "test-cov": "phpunit --configuration phpunit.xml --testdox --coverage-html=coverage",
+    "analyse": "php -d memory_limit=4G vendor/bin/phpstan analyse src --no-progress"
   }
 }
