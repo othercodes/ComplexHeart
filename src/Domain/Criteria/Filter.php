@@ -26,6 +26,7 @@ final class Filter implements ValueObject
     public const LTE = '<=';
     public const IN = 'in';
     public const NOT_IN = 'notIn';
+    public const LIKE = 'like';
 
     /**
      * The filter field name.
@@ -44,9 +45,9 @@ final class Filter implements ValueObject
     /**
      * The filter field value.
      *
-     * @var string
+     * @var mixed
      */
-    private string $value;
+    private $value;
 
     /**
      * Internal cache.
@@ -86,11 +87,11 @@ final class Filter implements ValueObject
      *
      * @param  string  $field
      * @param  string  $operator
-     * @param  string  $value
+     * @param  mixed   $value
      *
      * @return Filter
      */
-    public static function create(string $field, string $operator, string $value): Filter
+    public static function create(string $field, string $operator, $value): Filter
     {
         return new self($field, $operator, $value);
     }
@@ -110,7 +111,10 @@ final class Filter implements ValueObject
         return $this->operator;
     }
 
-    public function value(): string
+    /**
+     * @return mixed
+     */
+    public function value()
     {
         return $this->value;
     }
