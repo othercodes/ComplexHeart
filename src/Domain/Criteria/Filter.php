@@ -61,9 +61,9 @@ final class Filter implements ValueObject
      *
      * @param  string  $field
      * @param  string  $operator
-     * @param  string  $value
+     * @param  mixed  $value
      */
-    public function __construct(string $field, string $operator, string $value)
+    public function __construct(string $field, string $operator, $value)
     {
         $this->initialize(['field' => $field, 'operator' => $operator, 'value' => $value]);
     }
