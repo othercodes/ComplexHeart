@@ -14,7 +14,8 @@
     "php": "^7.4",
     "ext-json": "*",
     "ramsey/uuid": "^4.1",
-    "nesbot/carbon": "^2.40"
+    "nesbot/carbon": "^2.40",
+    "illuminate/collections": "^8.20"
   },
   "require-dev": {
     "ext-xdebug": "*",
