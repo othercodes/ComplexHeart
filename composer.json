@@ -11,7 +11,7 @@
   ],
   "minimum-stability": "stable",
   "require": {
-    "php": "^7.4",
+    "php": "^7.4|^8.0",
     "ext-json": "*",
     "ramsey/uuid": "^4.1",
     "nesbot/carbon": "^2.40",
@@ -21,7 +21,7 @@
     "ext-xdebug": "*",
     "mockery/mockery": "^1.4",
     "phpunit/phpunit": "^9.3",
-    "fzaninotto/faker": "^1.9",
+    "fakerphp/faker": "^1.9.1",
     "phpstan/phpstan": "^0.12.64"
   },
   "autoload": {
