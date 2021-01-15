@@ -20,4 +20,13 @@ interface Identifier
      * @return string
      */
     public function value(): string;
+
+    /**
+     * Check if the given identifier is the same than the current one.
+     *
+     * @param  Identifier  $other
+     *
+     * @return bool
+     */
+    public function is(Identifier $other): bool;
 }

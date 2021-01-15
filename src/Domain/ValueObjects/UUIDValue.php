@@ -73,6 +73,18 @@ class UUIDValue implements ValueObject, Identifier
     }
 
     /**
+     * Check if the given identifier is the same than the current one.
+     *
+     * @param  Identifier  $other
+     *
+     * @return bool
+     */
+    public function is(Identifier $other): bool
+    {
+        return $this->equals($other);
+    }
+
+    /**
      * To string method.
      *
      * @return string
