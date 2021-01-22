@@ -20,7 +20,7 @@ class CollectionTest extends MockeryTestCase
     public function testShouldSuccessfullyInstantiateACollection(): void
     {
         $c = new class (['foo', 'bar']) extends Collection {
-            protected string $typeOf = 'string';
+            protected string $valueType = 'string';
         };
 
         $this->assertInstanceOf(Collection::class, $c);
@@ -31,7 +31,7 @@ class CollectionTest extends MockeryTestCase
         $this->expectException(InvariantViolation::class);
 
         new class ([1, '2']) extends Collection {
-            protected string $typeOf = 'integer';
+            protected string $valueType = 'integer';
         };
     }
 
@@ -40,7 +40,7 @@ class CollectionTest extends MockeryTestCase
         $this->expectException(InvariantViolation::class);
 
         new class ([new stdClass(), '2']) extends Collection {
-            protected string $typeOf = stdClass::class;
+            protected string $valueType = stdClass::class;
         };
     }
 
@@ -56,5 +56,23 @@ class CollectionTest extends MockeryTestCase
         $this->expectException(InvariantViolation::class);
 
         new Collection([0, 1, 2, 3, 4], 2, 5);
+    }
+
+    public function testShouldFailDueToUnsupportedKeyType(): void
+    {
+        $this->expectException(InvariantViolation::class);
+
+        new class (['foo', 'bar']) extends Collection {
+            protected string $keyType = 'boolean';
+        };
+    }
+
+    public function testShouldFailDueToWrongKeyType(): void
+    {
+        $this->expectException(InvariantViolation::class);
+
+        new class (['foo', 'bar']) extends Collection {
+            protected string $keyType = 'string';
+        };
     }
 }
