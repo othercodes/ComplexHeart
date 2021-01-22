@@ -44,7 +44,7 @@ class Collection extends BaseCollection
      *
      * @var string
      */
-    protected string $keyType = 'integer';
+    protected string $keyType = 'mixed';
 
     /**
      * Collection constructor.
@@ -94,8 +94,8 @@ class Collection extends BaseCollection
      */
     protected function invariantItemsMustMatchTheRequiredType(): bool
     {
-        $primitives = ['integer', 'boolean', 'float', 'string', 'array', 'object', 'callable'];
         if ($this->valueType !== 'mixed') {
+            $primitives = ['integer', 'boolean', 'float', 'string', 'array', 'object', 'callable'];
             $check = in_array($this->valueType, $primitives)
                 ? fn($value): bool => gettype($value) !== $this->valueType
                 : fn($value): bool => !($value instanceof $this->valueType);
@@ -122,19 +122,20 @@ class Collection extends BaseCollection
      */
     protected function invariantKeysMustMatchTheRequiredType(): bool
     {
-        $supported = ['string', 'integer'];
-        if (!in_array($this->keyType, $supported)) {
-            throw new InvariantViolation(
-                "Unsupported key type, must be one of ".implode(', ', $supported)
-            );
-        }
+        if ($this->keyType !== 'mixed') {
+            $supported = ['string', 'integer'];
+            if (!in_array($this->keyType, $supported)) {
+                throw new InvariantViolation(
+                    "Unsupported key type, must be one of ".implode(', ', $supported)
+                );
+            }
 
-        foreach ($this->items as $index => $item) {
-            if (gettype($index) !== $this->keyType) {
-                throw new InvariantViolation("All keys must be type of {$this->keyType}");
+            foreach ($this->items as $index => $item) {
+                if (gettype($index) !== $this->keyType) {
+                    throw new InvariantViolation("All keys must be type of {$this->keyType}");
+                }
             }
         }
-
         return true;
     }
 
