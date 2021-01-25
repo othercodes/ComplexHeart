@@ -34,6 +34,16 @@ trait HasServiceBus
     }
 
     /**
+     * Return true if the Service Bus is bound to the object, false otherwise.
+     *
+     * @return bool
+     */
+    final public function isBound(): bool
+    {
+        return isset($this->_serviceBus);
+    }
+
+    /**
      * Return the Command Bus implementation.
      *
      * @return CommandBus
