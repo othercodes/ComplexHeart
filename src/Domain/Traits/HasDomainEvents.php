@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OtherCode\ComplexHeart\Domain\Traits;
 
 use OtherCode\ComplexHeart\Domain\Bus\Event;
+use OtherCode\ComplexHeart\Domain\Contracts\Bus\EventBus;
 
 /**
  * Trait HasDomainEvents
@@ -18,21 +19,20 @@ trait HasDomainEvents
     /**
      * List of registered domain events.
      *
-     * @var array<Event>
+     * @var Event[]
      */
     private array $_domainEvents = [];
 
     /**
-     * Pull out all the registered domain events.
+     * Publish the registered Domain Events.
      *
-     * @return array<Event>
+     * @param  EventBus  $eventBus
+     * @return void
      */
-    final public function pullDomainEvents(): array
+    final public function publishDomainEvents(EventBus $eventBus): void
     {
-        $domainEvents = $this->_domainEvents;
+        $eventBus->publish(...$this->_domainEvents);
         $this->_domainEvents = [];
-
-        return $domainEvents;
     }
 
     /**

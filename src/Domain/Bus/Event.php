@@ -24,12 +24,7 @@ abstract class Event extends Message
      */
     public function __construct(string $aggregateId, array $data = [])
     {
-        parent::__construct(
-            [
-                'aggregateId' => $aggregateId,
-                'data'        => $data,
-            ]
-        );
+        parent::__construct(array_merge(['aggregateId' => $aggregateId], $data));
     }
 
     /**
@@ -37,7 +32,7 @@ abstract class Event extends Message
      *
      * @return string
      */
-    public function aggregateId()
+    public function aggregateId(): string
     {
         return $this->fromPayload('aggregateId');
     }

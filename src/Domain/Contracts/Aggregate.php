@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace OtherCode\ComplexHeart\Domain\Contracts;
 
-use OtherCode\ComplexHeart\Domain\Bus\Event;
+use OtherCode\ComplexHeart\Domain\Contracts\Bus\EventBus;
 
 /**
  * Interface Aggregate
@@ -15,9 +15,14 @@ use OtherCode\ComplexHeart\Domain\Bus\Event;
 interface Aggregate extends Entity
 {
     /**
-     * Pull the registered Domain Events.
+     * Publish the registered Domain Events.
      *
-     * @return Event[]
+     *  $aggregate = new Aggregate();
+     *  // do things and generate events
+     *  $aggregate->publishDomainEvents($eventBus);
+     *
+     * @param  EventBus  $eventBus
+     * @return void
      */
-    public function pullDomainEvents(): array;
+    public function publishDomainEvents(EventBus $eventBus): void;
 }
