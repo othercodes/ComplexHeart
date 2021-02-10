@@ -1,4 +1,4 @@
-## Domain Modeling: Aggregates, Entities and Value Objects
+## How to model the domain
 
 Complex Heart allows you to model your domain Aggregates, Entities, and Value Objects using a set of traits. Great, but
 why traits and not classes? Well, sometimes you have some kind of inheritance in your classes. Being forced to use a

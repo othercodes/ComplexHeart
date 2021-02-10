@@ -1,7 +1,7 @@
 - [Home](Home)
-- [Domain Modeling](DomainModeling)
-  - Aggregates
-  - Entities
-  - [Value Objects](DomainModeling_ValueObjects)
-- [Service Bus](Service Bus)
+- [Domain Modeling](Domain-Modeling)
+  - [Aggregates](Domain-Modeling-Aggregates)
+  - [Entities](Domain-Modeling-Entities)
+  - [Value Objects](Domain-Modeling-Value-Objects)
+- [Service Bus](Service-Bus)
 - Criteria Pattern
