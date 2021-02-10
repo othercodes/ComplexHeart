@@ -1,4 +1,3 @@
-# Value Objects
 
 ```php
 use OtherCode\ComplexHeart\Domain\Contracts\ValueObject;

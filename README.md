@@ -90,6 +90,8 @@ Check this small example of the usage:
 $response = $queryBus->ask(new GetUserQuery('some-uuid-value'));
 ```
 
+Check the [wiki](https://github.com/othercodes/ComplexHeart/wiki) for more detailed examples.
+
 ## References
 
 - [Pro Codely TV](https://pro.codely.tv/library/)
