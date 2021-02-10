@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace OtherCode\ComplexHeart\Tests\Domain\Traits;
 
+use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
+use OtherCode\ComplexHeart\Domain\Bus\Event;
+use OtherCode\ComplexHeart\Domain\Contracts\Bus\EventBus;
 use OtherCode\ComplexHeart\Domain\ValueObjects\UUIDValue;
 use OtherCode\ComplexHeart\Tests\Sample\Order;
 use OtherCode\ComplexHeart\Tests\Sample\OrderLine;
@@ -20,6 +23,11 @@ class HasDomainEventTest extends MockeryTestCase
 {
     public function testShouldAddAndPullDomainEvent(): void
     {
+        $eventBus = Mockery::mock(EventBus::class);
+        $eventBus->shouldReceive('publish')
+            ->once()
+            ->with(Mockery::type(Event::class));
+
         $o = Order::create(
             UUIDValue::random(),
             new OrderLine(UUIDValue::random(), new ProductName('PR 1')),
@@ -27,7 +35,7 @@ class HasDomainEventTest extends MockeryTestCase
         );
 
         $this->assertCount(1, $o->getDomainEvents());
-        $this->assertCount(1, $o->pullDomainEvents());
+        $o->publishDomainEvents($eventBus);
         $this->assertCount(0, $o->getDomainEvents());
     }
 }

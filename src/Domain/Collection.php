@@ -33,11 +33,18 @@ class Collection extends BaseCollection
     private int $perPage;
 
     /**
-     * The type of item in the collection.
+     * The type of each items in the collection.
      *
      * @var string
      */
-    protected string $typeOf = 'mixed';
+    protected string $valueType = 'mixed';
+
+    /**
+     * The type of each keys in the collection.
+     *
+     * @var string
+     */
+    protected string $keyType = 'mixed';
 
     /**
      * Collection constructor.
@@ -85,21 +92,50 @@ class Collection extends BaseCollection
      * @return bool
      * @throws InvariantViolation
      */
-    protected function invariantItemsMustBeOfSameType(): bool
+    protected function invariantItemsMustMatchTheRequiredType(): bool
     {
-        $primitives = ['integer', 'boolean', 'float', 'string', 'array', 'object', 'callable'];
-        if ($this->typeOf !== 'mixed') {
-            $check = in_array($this->typeOf, $primitives)
-                ? fn($value): bool => gettype($value) !== $this->typeOf
-                : fn($value): bool => !($value instanceof $this->typeOf);
+        if ($this->valueType !== 'mixed') {
+            $primitives = ['integer', 'boolean', 'float', 'string', 'array', 'object', 'callable'];
+            $check = in_array($this->valueType, $primitives)
+                ? fn($value): bool => gettype($value) !== $this->valueType
+                : fn($value): bool => !($value instanceof $this->valueType);
 
             foreach ($this->items as $index => $item) {
                 if ($check($item)) {
-                    throw new InvariantViolation("All items must be type of {$this->typeOf}");
+                    throw new InvariantViolation("All items must be type of {$this->valueType}");
                 }
             }
         }
 
+        return true;
+    }
+
+    /**
+     * Invariant: Check the collection keys to match the required type.
+     *
+     * Supported types:
+     *  - string
+     *  - integer
+     *
+     * @return bool
+     * @throws InvariantViolation
+     */
+    protected function invariantKeysMustMatchTheRequiredType(): bool
+    {
+        if ($this->keyType !== 'mixed') {
+            $supported = ['string', 'integer'];
+            if (!in_array($this->keyType, $supported)) {
+                throw new InvariantViolation(
+                    "Unsupported key type, must be one of ".implode(', ', $supported)
+                );
+            }
+
+            foreach ($this->items as $index => $item) {
+                if (gettype($index) !== $this->keyType) {
+                    throw new InvariantViolation("All keys must be type of {$this->keyType}");
+                }
+            }
+        }
         return true;
     }
 

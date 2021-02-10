@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OtherCode\ComplexHeart\Domain\Contracts\Bus;
 
 use OtherCode\ComplexHeart\Domain\Bus\Query;
+use OtherCode\ComplexHeart\Domain\Bus\Response;
 
 /**
  * Interface QueryBus
@@ -21,5 +22,5 @@ interface QueryBus
      *
      * @return mixed
      */
-    public function ask(Query $query);
+    public function ask(Query $query): Response;
 }
