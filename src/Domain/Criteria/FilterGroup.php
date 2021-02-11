@@ -42,7 +42,7 @@ final class FilterGroup implements ValueObject, Countable
 
     public function add(Filter $filter): FilterGroup
     {
-        return new self(array_merge($this->filters, [$filter]));
+        return new self(...array_merge($this->filters, [$filter]));
     }
 
     public function filters(): array
