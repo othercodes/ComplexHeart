@@ -30,4 +30,14 @@ class HasIdentityTest extends MockeryTestCase
         $e = new OrderLine(UUIDValue::random(), new ProductName('PR some value'));
         $this->assertInstanceOf(UUIDValue::class, $e->id());
     }
+
+    public function testShouldCompareUsingIdInsteadValue(): void
+    {
+        $id = UUIDValue::random();
+
+        $a = new OrderLine($id, new ProductName('PR some value'));
+        $b = new OrderLine($id, new ProductName('PR some value'));
+
+        $this->assertTrue($a->equals($b));
+    }
 }
