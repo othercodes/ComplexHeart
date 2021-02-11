@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace OtherCode\ComplexHeart\Domain\ValueObjects;
 
-use OtherCode\ComplexHeart\Domain\Contracts\ValueObject;
 use OtherCode\ComplexHeart\Domain\Exceptions\InvariantViolation;
-use OtherCode\ComplexHeart\Domain\Traits\IsValueObject;
 
 /**
  * Class IntegerValue
@@ -16,9 +14,8 @@ use OtherCode\ComplexHeart\Domain\Traits\IsValueObject;
  * @author Unay Santisteban <usantisteban@othercode.es>
  * @package OtherCode\ComplexHeart\Domain\ValueObjects
  */
-abstract class IntegerValue implements ValueObject
+abstract class IntegerValue extends Value
 {
-    use IsValueObject;
 
     /**
      * Define the max value of the integer.
@@ -39,7 +36,7 @@ abstract class IntegerValue implements ValueObject
      *
      * @var int
      */
-    private int $value;
+    protected int $value;
 
     /**
      * IntegerValue constructor.

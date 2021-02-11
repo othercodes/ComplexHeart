@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace OtherCode\ComplexHeart\Domain\ValueObjects;
 
 use InvalidArgumentException;
-use OtherCode\ComplexHeart\Domain\Contracts\ValueObject;
 use OtherCode\ComplexHeart\Domain\Exceptions\InvariantViolation;
-use OtherCode\ComplexHeart\Domain\Traits\IsValueObject;
 
 /**
  * Class StringValueObject
@@ -17,10 +15,8 @@ use OtherCode\ComplexHeart\Domain\Traits\IsValueObject;
  * @author Unay Santisteban <usantisteban@othercode.es>
  * @package OtherCode\ComplexHeart\Domain\ValueObjects
  */
-abstract class StringValue implements ValueObject
+abstract class StringValue extends Value
 {
-    use IsValueObject;
-
     /**
      * Check the min length or the string.
      *
@@ -47,7 +43,7 @@ abstract class StringValue implements ValueObject
      *
      * @var string
      */
-    private string $value;
+    protected string $value;
 
     /**
      * StringValue constructor.

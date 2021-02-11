@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace OtherCode\ComplexHeart\Domain\ValueObjects;
 
 use ReflectionClass;
-use OtherCode\ComplexHeart\Domain\Contracts\ValueObject;
-use OtherCode\ComplexHeart\Domain\Traits\IsValueObject;
 
 /**
  * Class EnumValue
@@ -16,16 +14,14 @@ use OtherCode\ComplexHeart\Domain\Traits\IsValueObject;
  * @author Unay Santisteban <usantisteban@othercode.es>
  * @package OtherCode\ComplexHeart\Domain\ValueObjects
  */
-abstract class EnumValue implements ValueObject
+abstract class EnumValue extends Value
 {
-    use IsValueObject;
-
     /**
      * The Enum value.
      *
      * @var mixed
      */
-    private $value;
+    protected $value;
 
     /**
      * Internal cache.
