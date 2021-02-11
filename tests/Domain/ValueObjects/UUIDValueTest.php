@@ -36,6 +36,7 @@ class UUIDValueTest extends MockeryTestCase
 
         $vo = new UUIDValue($uuid);
         $this->assertTrue($vo->equals(new UUIDValue($uuid)));
+        $this->assertTrue($vo->is(new UUIDValue($uuid)));
     }
 
     public function testShouldReturnFalseOnNotEqualObjects(): void

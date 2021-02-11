@@ -6,8 +6,6 @@ namespace OtherCode\ComplexHeart\Domain\ValueObjects;
 
 use Exception;
 use OtherCode\ComplexHeart\Domain\Contracts\Identifier;
-use OtherCode\ComplexHeart\Domain\Contracts\ValueObject;
-use OtherCode\ComplexHeart\Domain\Traits\IsValueObject;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -16,10 +14,8 @@ use Ramsey\Uuid\Uuid;
  * @author Unay Santisteban <usantisteban@othercode.es>
  * @package OtherCode\ComplexHeart\Domain\ValueObjects
  */
-class UUIDValue implements ValueObject, Identifier
+class UUIDValue extends Value implements Identifier
 {
-    use IsValueObject;
-
     private const RANDOM = 'random';
 
     /**
@@ -27,7 +23,7 @@ class UUIDValue implements ValueObject, Identifier
      *
      * @var string
      */
-    private string $value;
+    protected string $value;
 
     /**
      * UUIDValue constructor.
