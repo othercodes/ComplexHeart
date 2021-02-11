@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace OtherCode\ComplexHeart\Domain\ValueObjects;
 
-use OtherCode\ComplexHeart\Domain\Contracts\ValueObject;
-use OtherCode\ComplexHeart\Domain\Traits\IsValueObject;
-
 /**
  * Class BooleanValue
  *
@@ -15,10 +12,8 @@ use OtherCode\ComplexHeart\Domain\Traits\IsValueObject;
  * @author Unay Santisteban <usantisteban@othercode.es>
  * @package OtherCode\ComplexHeart\Domain\ValueObjects
  */
-abstract class BooleanValue implements ValueObject
+abstract class BooleanValue extends Value
 {
-    use IsValueObject;
-
     /**
      * The string representation of the boolean value.
      *
@@ -34,7 +29,7 @@ abstract class BooleanValue implements ValueObject
      *
      * @var bool
      */
-    private bool $value;
+    protected bool $value;
 
     /**
      * BoolValueObject constructor.
