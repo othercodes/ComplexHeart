@@ -11,7 +11,8 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "7.4"
+          - 7.4
+          - 8.0
 
     steps:
       - name: Checkout source code
@@ -22,7 +23,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           extensions: mbstring
-          coverage: xdebug
+          coverage: pcov
           tools: composer:v2
 
       - name: Cache dependencies
