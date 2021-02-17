@@ -29,4 +29,11 @@ interface Identifier
      * @return bool
      */
     public function is(Identifier $other): bool;
+
+    /**
+     * Represents the id as string.
+     *
+     * @return string
+     */
+    public function __toString(): string;
 }
