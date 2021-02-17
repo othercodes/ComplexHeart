@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace OtherCode\ComplexHeart\Domain\Traits;
 
+use function Lambdish\Phunctional\map;
+
 /**
  * Trait HasAttributes
  *
@@ -64,7 +66,7 @@ trait HasAttributes
     final protected function get(string $attribute)
     {
         if (in_array($attribute, static::attributes())) {
-            $method = $this->getProxyMethod('get', $attribute);
+            $method = $this->getStringKey($attribute, 'get', 'Value');
 
             return ($this->canCall($method))
                 ? call_user_func_array([$this, $method], [$this->{$attribute}])
@@ -83,7 +85,7 @@ trait HasAttributes
     final protected function set(string $attribute, $value): void
     {
         if (in_array($attribute, $this->attributes())) {
-            $method = $this->getProxyMethod('set', $attribute);
+            $method = $this->getStringKey($attribute, 'set', 'Value');
 
             $this->{$attribute} = ($this->canCall($method))
                 ? call_user_func_array([$this, $method], [$value])
@@ -92,19 +94,26 @@ trait HasAttributes
     }
 
     /**
-     * Return the required proxy method.
+     * Return the required string key.
      * - $prefix     = 'get'
      * - $id         = 'Name'
+     * - $suffix     = 'Value'
      * will be: getNameValue
      *
      * @param  string  $prefix
      * @param  string  $id
+     * @param  string  $suffix
      *
      * @return string
      */
-    protected function getProxyMethod(string $prefix, string $id): string
+    protected function getStringKey(string $id, string $prefix = '', string $suffix = ''): string
     {
-        return trim(lcfirst($prefix).ucfirst($id).'Value');
+        return sprintf(
+            '%s%s%s',
+            $prefix,
+            implode('', map(fn(string $chunk) => ucfirst($chunk), explode('_', $id))),
+            $suffix
+        );
     }
 
     /**

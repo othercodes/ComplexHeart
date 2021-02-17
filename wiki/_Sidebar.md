@@ -5,3 +5,4 @@
   - [Value Objects](Domain-Modeling-Value-Objects)
 - [Service Bus](Service-Bus)
 - Criteria Pattern
+- [State Pattern](State-Pattern.md)

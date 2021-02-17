@@ -11,6 +11,7 @@ use OtherCode\ComplexHeart\Domain\Contracts\Bus\EventBus;
 use OtherCode\ComplexHeart\Domain\ValueObjects\UUIDValue;
 use OtherCode\ComplexHeart\Tests\Sample\Order;
 use OtherCode\ComplexHeart\Tests\Sample\OrderLine;
+use OtherCode\ComplexHeart\Tests\Sample\ValueObjects\PaymentStatus;
 use OtherCode\ComplexHeart\Tests\Sample\ValueObjects\ProductName;
 
 /**
@@ -30,6 +31,7 @@ class HasDomainEventTest extends MockeryTestCase
 
         $o = Order::create(
             UUIDValue::random(),
+            new PaymentStatus(PaymentStatus::PENDING),
             new OrderLine(UUIDValue::random(), new ProductName('PR 1')),
             new OrderLine(UUIDValue::random(), new ProductName('PR 2')),
         );
