@@ -6,6 +6,7 @@ namespace OtherCode\ComplexHeart\Tests\Sample;
 
 use Exception;
 use OtherCode\ComplexHeart\Domain\Contracts\Aggregate;
+use OtherCode\ComplexHeart\Domain\Exceptions\InvariantViolation;
 use OtherCode\ComplexHeart\Domain\Traits\IsAggregate;
 use OtherCode\ComplexHeart\Domain\ValueObjects\UUIDValue as OrderId;
 use OtherCode\ComplexHeart\Tests\Sample\Events\OrderHasBeenCreated;
@@ -33,10 +34,30 @@ final class Order implements Aggregate
      * @param  OrderId  $id
      * @param  PaymentStatus  $status
      * @param  OrderLine  ...$orderLines
+     *
+     * @throws Exception
      */
-    public function __construct(OrderId $id, PaymentStatus $status, OrderLine ...$orderLines)
+    public function __construct(OrderId $id, PaymentStatus $status, array $orderLines)
     {
-        $this->initialize(['id' => $id, 'status' => $status, 'orderLines' => $orderLines]);
+        $this->initialize([$id, $status, $orderLines]);
+        $this->registerDomainEvent(new OrderHasBeenCreated($this->id()->value()));
+    }
+
+    /**
+     * Invariant, check that all items in order line array are type of OrderLine.
+     *
+     * @return bool
+     * @throws InvariantViolation
+     */
+    protected function invariantEachOrderLineMustBeTypeOfOrderLine(): bool
+    {
+        foreach ($this->orderLines as $orderLine) {
+            if (!($orderLine instanceof OrderLine)) {
+                throw new InvariantViolation("All order lines must be type of OrderLine");
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -49,13 +70,9 @@ final class Order implements Aggregate
      * @return static
      * @throws Exception
      */
-    public static function create(OrderId $id, PaymentStatus $status, OrderLine ...$orderLines): self
+    public static function create(OrderId $id, PaymentStatus $status, array $orderLines): self
     {
-        $order = new self($id, $status, ...$orderLines);
-
-        $order->registerDomainEvent(new OrderHasBeenCreated($order->id()->value()));
-
-        return $order;
+        return new self($id, $status, $orderLines);
     }
 
     /**
