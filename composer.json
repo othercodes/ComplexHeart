@@ -17,7 +17,8 @@
     "nesbot/carbon": "^2.40",
     "illuminate/collections": "^8.20",
     "spatie/data-transfer-object": "^2.6",
-    "lambdish/phunctional": "^2.1"
+    "lambdish/phunctional": "^2.1",
+    "doctrine/instantiator": "^1.4"
   },
   "require-dev": {
     "mockery/mockery": "^1.4",
