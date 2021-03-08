@@ -7,6 +7,9 @@ namespace OtherCode\ComplexHeart\Domain\Traits;
 use Exception;
 use OtherCode\ComplexHeart\Domain\Exceptions\InvariantViolation;
 
+use function Lambdish\Phunctional\filter;
+
+
 /**
  * Trait HasInvariants
  *
@@ -25,8 +28,9 @@ trait HasInvariants
      * @var array<string, string>
      */
     private array $_invariant = [
-        'exception'     => InvariantViolation::class,
-        'messages.fail' => "Unable to create {class} due: \n{violations}\n",
+        'exception' => InvariantViolation::class,
+        'handler' => 'invariantHandler',
+        'messages.fail' => "Unable to create {class} due: {violations}",
     ];
 
     /**
@@ -38,9 +42,13 @@ trait HasInvariants
     {
         $invariants = [];
         foreach (get_class_methods(static::class) as $invariant) {
-            if (strpos($invariant, 'invariant') === 0) {
-                $invariants[$invariant] = strtolower(
-                    preg_replace('/[A-Z]([A-Z](?![a-z]))*/', ' $0', $invariant)
+            if (strpos($invariant, 'invariant') === 0 && $invariant !== 'invariants') {
+                $invariants[$invariant] = str_replace(
+                    'invariant ',
+                    '',
+                    strtolower(
+                        preg_replace('/[A-Z]([A-Z](?![a-z]))*/', ' $0', $invariant)
+                    )
                 );
             }
         }
@@ -65,15 +73,23 @@ trait HasInvariants
      * $onFail function must have following signature:
      *  fn(array<string, string>) => void
      *
+     * @param  callable|null  $filter
      * @param  callable|null  $onFail
      *
      * @return void
      */
-    final private function check(callable $onFail = null): void
+    final private function check(callable $filter = null, callable $onFail = null): void
     {
         $violations = [];
 
-        foreach (static::invariants() as $invariant => $rule) {
+        $invariants = filter(
+            is_null($filter)
+                ? fn(string $rule, string $invariant): bool => true
+                : $filter,
+            static::invariants()
+        );
+
+        foreach ($invariants as $invariant => $rule) {
             try {
                 if (!call_user_func_array([$this, $invariant], [])) {
                     $violations[$invariant] = $rule;
@@ -85,17 +101,21 @@ trait HasInvariants
 
         if (count($violations) > 0) {
             if (is_null($onFail)) {
-                $onFail = function (array $violations): void {
-                    throw new $this->_invariant['exception'](
-                        strtr(
-                            $this->_invariant['messages.fail'],
-                            [
-                                '{class}'      => basename(str_replace('\\', '/', static::class)),
-                                '{violations}' => implode("\n", $violations),
-                            ]
-                        )
-                    );
-                };
+                $onFail = (method_exists($this, $this->_invariant['handler']))
+                    ? function (array $violations): void {
+                        call_user_func_array([$this, $this->_invariant['handler']], [$violations]);
+                    }
+                    : function (array $violations): void {
+                        throw new $this->_invariant['exception'](
+                            strtr(
+                                $this->_invariant['messages.fail'],
+                                [
+                                    '{class}' => basename(str_replace('\\', '/', static::class)),
+                                    '{violations}' => implode(",", $violations),
+                                ]
+                            )
+                        );
+                    };
             }
 
             $onFail($violations);
