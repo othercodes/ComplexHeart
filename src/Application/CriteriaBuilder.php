@@ -216,7 +216,7 @@ final class CriteriaBuilder
     {
         return new Criteria(
             FilterGroup::create($this->filters),
-            Order::create($this->orderBy, $this->orderType),
+            empty($this->orderBy) ? Order::none() : Order::create($this->orderBy, $this->orderType),
             Page::create($this->pageLimit, $this->pageOffset)
         );
     }
