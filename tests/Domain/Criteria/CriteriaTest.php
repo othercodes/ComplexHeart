@@ -23,7 +23,7 @@ class CriteriaTest extends MockeryTestCase
         $criteria = new Criteria(
             FilterGroup::create(
                 [
-                    ['name', '=', 'Marsellus'],
+                    ['name', 'in', ['Marsellus', 'Mia']],
                     ['surname', '=', 'Wallace'],
                 ]
             ),
@@ -44,7 +44,7 @@ class CriteriaTest extends MockeryTestCase
         $this->assertEquals(100, $criteria->pageOffset());
 
         $this->assertEquals(
-            "name.=.Marsellus+surname.=.Wallace#name.asc#100.100",
+            "name.in.Marsellus|Mia+surname.=.Wallace#name.asc#100.100",
             (string)$criteria
         );
     }

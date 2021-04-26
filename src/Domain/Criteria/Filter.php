@@ -87,7 +87,7 @@ final class Filter implements ValueObject
      *
      * @param  string  $field
      * @param  string  $operator
-     * @param  mixed   $value
+     * @param  mixed  $value
      *
      * @return Filter
      */
@@ -121,6 +121,13 @@ final class Filter implements ValueObject
 
     public function __toString(): string
     {
-        return sprintf('%s.%s.%s', $this->field(), $this->operator(), $this->value());
+        return sprintf(
+            '%s.%s.%s',
+            $this->field(),
+            $this->operator(),
+            is_array($this->value())
+                ? implode('|', $this->value())
+                : $this->value()
+        );
     }
 }
