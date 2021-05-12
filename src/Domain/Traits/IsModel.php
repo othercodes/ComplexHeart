@@ -53,6 +53,18 @@ trait IsModel
     }
 
     /**
+     * Makes a full copy of the instance and overrides attributes provided by the client
+     * @param  array  $overrides
+     * @return static
+     */
+    protected function withOverrides(array $overrides)
+    {
+        return self::wakeup(
+            ...array_values(array_merge($this->values(), $overrides))
+        );
+    }
+
+    /**
      * Map the given source with the actual attributes by position, if
      * the provided array is already mapped (assoc) return it directly.
      *
