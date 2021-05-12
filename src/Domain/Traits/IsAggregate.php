@@ -17,5 +17,23 @@ namespace OtherCode\ComplexHeart\Domain\Traits;
  */
 trait IsAggregate
 {
-    use IsEntity, HasDomainEvents, HasServiceBus;
+    use HasDomainEvents, HasServiceBus, IsEntity {
+        withOverrides as entityWithOverrides;
+    }
+
+    /**
+     * Makes a full copy of the instance with all registered domain events and overrides attributes provided by the client
+     * @param  array  $overrides
+     * @return static
+     */
+    protected function withOverrides(array $overrides)
+    {
+        $copy = $this->entityWithOverrides($overrides);
+
+        foreach ($this->_domainEvents as $event) {
+            $copy->registerDomainEvent($event);
+        }
+
+        return $copy;
+    }
 }
