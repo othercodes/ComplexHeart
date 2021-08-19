@@ -31,7 +31,18 @@ class DateTimeValue extends CarbonImmutable implements ValueObject
     public function __construct($time = null, $tz = null)
     {
         parent::__construct($time, $tz);
+        $this->initializeDefaultStringFormat();
+    }
+
+    private function initializeDefaultStringFormat(): void
+    {
         $this->settings(['toStringFormat' => 'c']);
+    }
+
+    public function __wakeup()
+    {
+        parent::__wakeup();
+        $this->initializeDefaultStringFormat();
     }
 
     /**
