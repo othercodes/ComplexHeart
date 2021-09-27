@@ -27,6 +27,8 @@ final class Filter implements ValueObject
     public const IN = 'in';
     public const NOT_IN = 'notIn';
     public const LIKE = 'like';
+    public const IS_NULL = 'isNull';
+    public const IS_NOT_NULL = 'isNotNull';
 
     /**
      * The filter field name.
