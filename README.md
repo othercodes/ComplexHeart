@@ -67,10 +67,10 @@ The available traits are:
 
 On top of those base traits **Complex Heart** provide ready to use compositions:
 
-- `IsModel` composed by `HasAttributes` and `HasInvariants`
-- `IsValueObject` composed by `IsModel` and `HasEquality`
-- `IsEntity` composed by `IsModel`, `HasIdentity`, `HasEquality`
-- `IsAggregate` composed by `IsEntity`, `HasDomainEvents`
+- `IsModel` composed by `HasAttributes` and `HasInvariants`.
+- `IsValueObject` composed by `IsModel` and `HasEquality`.
+- `IsEntity` composed by `IsModel`, `HasIdentity`, `HasEquality`.
+- `IsAggregate` composed by `IsEntity`, `HasDomainEvents`.
 
 ## Service Bus: Commands, Queries and Events
 
