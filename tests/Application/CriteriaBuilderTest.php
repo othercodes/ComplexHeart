@@ -34,9 +34,11 @@ class CriteriaBuilderTest extends MockeryTestCase
             ->filterIn('address.state', ['FL', 'NY'])
             ->filterNotIn('address.zip', [10, 11, 12, 13])
             ->filterLike('job.title', '%Gangster%')
+            ->filterIsNull('lastActivityDate')
+            ->filterIsNotNull('lastLoginDate')
             ->build();
 
-        $this->assertCount(9, $criteria->filters());
+        $this->assertCount(11, $criteria->filters());
     }
 
     public function testShouldSetOrderByAndOrderType(): void

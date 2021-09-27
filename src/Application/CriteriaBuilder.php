@@ -160,6 +160,28 @@ final class CriteriaBuilder
     }
 
     /**
+     * Adds new filter for IS NULL operator
+     * @param  string  $field
+     * @return $this
+     */
+    public function filterIsNull(string $field): self
+    {
+        $this->filter($field, Filter::IS_NULL, null);
+        return $this;
+    }
+
+    /**
+     * Adds new filter for IS NOT NULL operator
+     * @param  string  $field
+     * @return $this
+     */
+    public function filterIsNotNull(string $field): self
+    {
+        $this->filter($field, Filter::IS_NOT_NULL, null);
+        return $this;
+    }
+
+    /**
      * Sets the order by field parameter.
      *
      * @param  string  $field
