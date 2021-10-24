@@ -78,7 +78,7 @@ trait HasInvariants
      *
      * @return void
      */
-    final private function check(callable $filter = null, callable $onFail = null): void
+    private function check(callable $filter = null, callable $onFail = null): void
     {
         $violations = [];
 
