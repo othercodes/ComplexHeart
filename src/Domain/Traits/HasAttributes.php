@@ -16,9 +16,9 @@ trait HasAttributes
 {
     /**
      * Static property to keep cached attributes list to optimize performance.
-     * @var array<string, mixed>
+     * @var array<array<string, mixed>>
      */
-    private static array $_attributesCache;
+    private static array $_attributesCache = [];
 
     /**
      * Static property to keep cached string keys to optimize performance
@@ -34,13 +34,13 @@ trait HasAttributes
      */
     final public static function attributes(): array
     {
-        if (empty(static::$_attributesCache)) {
-            static::$_attributesCache = array_filter(
+        if (empty(static::$_attributesCache[static::class])) {
+            static::$_attributesCache[static::class] = array_filter(
                 array_keys(get_class_vars(static::class)),
                 fn(string $item) => strpos($item, '_') !== 0
             );
         }
-        return static::$_attributesCache;
+        return static::$_attributesCache[static::class];
     }
 
     /**
