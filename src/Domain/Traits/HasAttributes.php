@@ -21,6 +21,12 @@ trait HasAttributes
     private static array $_attributesCache;
 
     /**
+     * Static property to keep cached string keys to optimize performance
+     * @var array<string, string>
+     */
+    private static array $_stringKeysCache = [];
+
+    /**
      * Return the list of attributes of the current class.
      * Properties starting with "_" will be considered as internal use only.
      *
@@ -117,12 +123,16 @@ trait HasAttributes
      */
     protected function getStringKey(string $id, string $prefix = '', string $suffix = ''): string
     {
-        return sprintf(
-            '%s%s%s',
-            $prefix,
-            implode('', map(fn(string $chunk) => ucfirst($chunk), explode('_', $id))),
-            $suffix
-        );
+        $cacheKey = implode('-', [$id, $prefix, $suffix]);
+        if (empty(static::$_stringKeysCache[$cacheKey])) {
+            static::$_stringKeysCache[$cacheKey] = sprintf(
+                '%s%s%s',
+                $prefix,
+                implode('', map(fn(string $chunk) => ucfirst($chunk), explode('_', $id))),
+                $suffix
+            );
+        }
+        return static::$_stringKeysCache[$cacheKey];
     }
 
     /**
