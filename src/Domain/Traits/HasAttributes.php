@@ -15,6 +15,12 @@ use function Lambdish\Phunctional\map;
 trait HasAttributes
 {
     /**
+     * Static property to keep cached attributes list to optimize performance.
+     * @var array<string, mixed>
+     */
+    private static array $_attributesCache;
+
+    /**
      * Return the list of attributes of the current class.
      * Properties starting with "_" will be considered as internal use only.
      *
@@ -22,10 +28,13 @@ trait HasAttributes
      */
     final public static function attributes(): array
     {
-        return array_filter(
-            array_keys(get_class_vars(static::class)),
-            fn(string $item) => strpos($item, '_') !== 0
-        );
+        if (empty(static::$_attributesCache)) {
+            static::$_attributesCache = array_filter(
+                array_keys(get_class_vars(static::class)),
+                fn(string $item) => strpos($item, '_') !== 0
+            );
+        }
+        return static::$_attributesCache;
     }
 
     /**
