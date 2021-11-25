@@ -19,6 +19,12 @@ use function Lambdish\Phunctional\filter;
 trait HasInvariants
 {
     /**
+     * Static property to keep cached invariants list to optimize performance.
+     * @var array<string, <string, mixed>>
+     */
+    private static $_invariantsCache = [];
+
+    /**
      * Invariant configuration.
      *
      * - exception: Defines the exception that will be thrown on invariant violation.
@@ -40,20 +46,25 @@ trait HasInvariants
      */
     final public static function invariants(): array
     {
-        $invariants = [];
-        foreach (get_class_methods(static::class) as $invariant) {
-            if (strpos($invariant, 'invariant') === 0 && $invariant !== 'invariants') {
-                $invariants[$invariant] = str_replace(
-                    'invariant ',
-                    '',
-                    strtolower(
-                        preg_replace('/[A-Z]([A-Z](?![a-z]))*/', ' $0', $invariant)
-                    )
-                );
+        if (empty(static::$_invariantsCache[static::class])) {
+            $invariants = [];
+
+            foreach (get_class_methods(static::class) as $invariant) {
+                if (strpos($invariant, 'invariant') === 0 && $invariant !== 'invariants') {
+                    $invariants[$invariant] = str_replace(
+                        'invariant ',
+                        '',
+                        strtolower(
+                            preg_replace('/[A-Z]([A-Z](?![a-z]))*/', ' $0', $invariant)
+                        )
+                    );
+                }
             }
+
+            static::$_invariantsCache[static::class] = $invariants;
         }
 
-        return $invariants;
+        return static::$_invariantsCache[static::class];
     }
 
     /**

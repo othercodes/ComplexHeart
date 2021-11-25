@@ -15,6 +15,18 @@ use function Lambdish\Phunctional\map;
 trait HasAttributes
 {
     /**
+     * Static property to keep cached attributes list to optimize performance.
+     * @var array<array<string, mixed>>
+     */
+    private static array $_attributesCache = [];
+
+    /**
+     * Static property to keep cached string keys to optimize performance
+     * @var array<string, string>
+     */
+    private static array $_stringKeysCache = [];
+
+    /**
      * Return the list of attributes of the current class.
      * Properties starting with "_" will be considered as internal use only.
      *
@@ -22,10 +34,13 @@ trait HasAttributes
      */
     final public static function attributes(): array
     {
-        return array_filter(
-            array_keys(get_class_vars(static::class)),
-            fn(string $item) => strpos($item, '_') !== 0
-        );
+        if (empty(static::$_attributesCache[static::class])) {
+            static::$_attributesCache[static::class] = array_filter(
+                array_keys(get_class_vars(static::class)),
+                fn(string $item) => strpos($item, '_') !== 0
+            );
+        }
+        return static::$_attributesCache[static::class];
     }
 
     /**
@@ -108,12 +123,16 @@ trait HasAttributes
      */
     protected function getStringKey(string $id, string $prefix = '', string $suffix = ''): string
     {
-        return sprintf(
-            '%s%s%s',
-            $prefix,
-            implode('', map(fn(string $chunk) => ucfirst($chunk), explode('_', $id))),
-            $suffix
-        );
+        $cacheKey = implode('-', [$id, $prefix, $suffix]);
+        if (empty(static::$_stringKeysCache[$cacheKey])) {
+            static::$_stringKeysCache[$cacheKey] = sprintf(
+                '%s%s%s',
+                $prefix,
+                implode('', map(fn(string $chunk) => ucfirst($chunk), explode('_', $id))),
+                $suffix
+            );
+        }
+        return static::$_stringKeysCache[$cacheKey];
     }
 
     /**
