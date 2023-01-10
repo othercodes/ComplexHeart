@@ -63,4 +63,14 @@ class ArrayValueTest extends MockeryTestCase
             $this->assertIsString($item);
         }
     }
+
+    public function testShouldBeSerializable(): void
+    {
+        $vo = new ShoppingList(['Milk', 'Eggs', 'Yogurt']);
+        $unserialized = unserialize(serialize($vo));
+
+        foreach ($vo as $item) {
+            $this->assertContains($item, $unserialized);
+        }
+    }
 }

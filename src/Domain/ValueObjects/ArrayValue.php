@@ -187,6 +187,11 @@ abstract class ArrayValue extends Value implements IteratorAggregate, ArrayAcces
         return serialize($this->value);
     }
 
+    public function __serialize(): array
+    {
+        return $this->value;
+    }
+
     /**
      * Constructs the object.
      *
@@ -195,6 +200,11 @@ abstract class ArrayValue extends Value implements IteratorAggregate, ArrayAcces
     public function unserialize($serialized): void
     {
         $this->value = unserialize($serialized);
+    }
+
+    public function __unserialize(array $data): void
+    {
+        $this->value = $data;
     }
 
     /**
