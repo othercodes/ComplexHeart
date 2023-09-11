@@ -91,6 +91,10 @@ trait HasInvariants
      */
     private function check(callable $filter = null, callable $onFail = null): void
     {
+        if ($this->skipChecking()) {
+            return;
+        }
+
         $violations = [];
 
         $invariants = filter(
@@ -131,5 +135,11 @@ trait HasInvariants
 
             $onFail($violations);
         }
+    }
+
+    private function skipChecking(): bool
+    {
+        $key = 'COMPLEX_HEARTH_SKIP_INVARIANTS_CHECKING';
+        return (bool)($_ENV[$key] ?? getenv($key));
     }
 }
