@@ -46,7 +46,7 @@ trait HasInvariants
      */
     final public static function invariants(): array
     {
-        if (empty(static::$_invariantsCache[static::class])) {
+        if (array_key_exists(static::class, static::$_invariantsCache) === false) {
             $invariants = [];
 
             foreach (get_class_methods(static::class) as $invariant) {
