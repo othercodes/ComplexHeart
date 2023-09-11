@@ -46,7 +46,7 @@ trait HasInvariants
      */
     final public static function invariants(): array
     {
-        if (empty(static::$_invariantsCache[static::class])) {
+        if (array_key_exists(static::class, static::$_invariantsCache) === false) {
             $invariants = [];
 
             foreach (get_class_methods(static::class) as $invariant) {
@@ -91,6 +91,10 @@ trait HasInvariants
      */
     private function check(callable $filter = null, callable $onFail = null): void
     {
+        if ($this->skipChecking()) {
+            return;
+        }
+
         $violations = [];
 
         $invariants = filter(
@@ -131,5 +135,11 @@ trait HasInvariants
 
             $onFail($violations);
         }
+    }
+
+    private function skipChecking(): bool
+    {
+        $key = 'COMPLEX_HEARTH_SKIP_INVARIANTS_CHECKING';
+        return (bool)($_ENV[$key] ?? getenv($key));
     }
 }
