@@ -39,7 +39,7 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
 
-      - name: Execute tests (Unit and Feature tests) via PHPUnit
+      - name: Execute tests via PHPUnit
         run: composer test
 
       - name: Upload code coverage
